@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
+import {Head, router} from '@inertiajs/vue3';
 import {ref} from 'vue';
 
 defineProps<{
@@ -30,10 +30,14 @@ const formColumns = ref([
     },
 ])
 
+const handleAdd = () => {
+    router.get(route('forms.create'))
+}
+
 </script>
 
 <template>
-    <Head title="Form" />
+    <Head title="Form"/>
 
     <AuthenticatedLayout>
         <template #header>
@@ -42,6 +46,9 @@ const formColumns = ref([
 
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+                <a-button class="editable-add-btn" style="margin-bottom: 8px" @click="handleAdd">Add New Form</a-button>
+
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
                         <a-table :dataSource="forms.data" :columns="formColumns"/>

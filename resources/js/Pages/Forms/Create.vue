@@ -11,7 +11,7 @@
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-6 text-gray-900">
-                        <a-form :model="formState" name="basic" autocomplete="off" @finish="onFinish" @finishFailed="onFinishFailed">
+                        <a-form layout="vertical" :model="formState" name="basic" autocomplete="off" @finish="onFinish" @finishFailed="onFinishFailed" :wrapper-col="{ span: 24 }">
 
                             <a-form-item label="Name" name="name" :rules="[{ required: true, message: 'Please input your form name!' }]">
                                 <a-input v-model:value="formState.name"/>
@@ -21,7 +21,7 @@
                                 <a-input v-model:value="formState.description"/>
                             </a-form-item>
 
-                            <a-form-item :wrapper-col="{ offset: 8, span: 16 }">
+                            <a-form-item>
                                 <a-button type="primary" html-type="submit">Submit</a-button>
                             </a-form-item>
 
