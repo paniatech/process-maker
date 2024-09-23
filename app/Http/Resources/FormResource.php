@@ -24,8 +24,8 @@ class FormResource extends JsonResource
             'id' => $this->resource->getAttribute('id'),
             'name' => $this->resource->getAttribute('name'),
             'description' => $this->resource->getAttribute('description'),
-            'created_at' => $this->resource->getAttribute('created_at'),
-            'updated_at' => $this->resource->getAttribute('updated_at'),
+            'created_at' => $this->resource->getAttribute('created_at')->toDateTimeString(),
+            'updated_at' => $this->resource->getAttribute('updated_at')->toDateTimeString(),
         ];
     }
 }

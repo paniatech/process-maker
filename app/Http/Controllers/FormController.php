@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Response\FormatResponse;
 use App\Http\Resources\FormCollection;
 use App\Models\User;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class FormController extends Controller
 {
-    public function index(): JsonResponse
+    public function index(): Response
     {
         /** @var User $user */
         $user = Auth::user();
 
-        return FormatResponse::success(new FormCollection($user->forms()->paginate()));
+        return Inertia::render('Forms/Form', [
+            'forms' => new FormCollection($user->forms()->paginate())
+        ]);
     }
 }
