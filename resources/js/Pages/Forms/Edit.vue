@@ -54,7 +54,7 @@ const formState = reactive<FormState>(props.form.data);
 console.log(formState);
 
 const onFinish = (values: FormState) => {
-    console.log(values);
+    router.put(route('forms.store').concat(`/${formState.id}`), values)
 };
 
 const onFinishFailed = (errorInfo: any) => {

@@ -21,11 +21,12 @@ class FormRequest extends FoundationFormRequest
      *
      * @return array<string, ValidationRule|array|string>
      */
-    #[ArrayShape(['name' => "string"])]
+    #[ArrayShape(['name' => "string", 'description' => "string"])]
     public function rules(): array
     {
         return [
-            'name' => 'required'
+            'name' => 'required',
+            'description' => 'nullable',
         ];
     }
 }

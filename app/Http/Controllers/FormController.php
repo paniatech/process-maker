@@ -36,13 +36,20 @@ class FormController extends Controller
 
         $form = $user->forms()->create($request->validated());
 
-        return redirect()->intended(route('forms.edit',['form' => $form->getAttribute('id')]));
+        return redirect()->intended(route('forms.show',['form' => $form->getAttribute('id')]));
     }
 
-    public function edit(Form $form): Response
+    public function show(Form $form): Response
     {
         return Inertia::render('Forms/Edit', [
             'form' => new FormResource($form)
         ]);
+    }
+
+    public function update(Form $form, FormRequest $request): RedirectResponse
+    {
+        $form->update($request->validated());
+
+        return redirect()->intended(route('forms.show',['form' => $form->getAttribute('id')]));
     }
 }
