@@ -50,6 +50,6 @@ class FormController extends Controller
     {
         $form->update($request->validated());
 
-        return redirect()->intended(route('forms.show',['form' => $form->getAttribute('id')]));
+        return redirect()->intended(route('forms.fields.index',['form' => $form->getAttribute('id')]));
     }
 }
