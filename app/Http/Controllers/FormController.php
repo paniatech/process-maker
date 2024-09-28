@@ -36,7 +36,7 @@ class FormController extends Controller
 
         $form = $user->forms()->create($request->validated());
 
-        return redirect()->intended(route('forms.show',['form' => $form->getAttribute('id')]));
+        return redirect()->intended(route('forms.fields.index',['form' => $form->getAttribute('id')]));
     }
 
     public function show(Form $form): Response
