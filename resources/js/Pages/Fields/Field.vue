@@ -1,46 +1,48 @@
 <template>
-    <a-row class="groups">
-        <a-col :span="5" class="min-h-screen border-b border-gray-200 p-4 flex justify-center items-center">
-            <a-row>
-                <Container behaviour="copy" group-name="1" :get-child-payload="getChildPayload">
-                    <Draggable v-for="element in elements" drag-handle-selector>
-                        <a-col :span="24" class="draggable-item my-2">
-                            <label>{{ element.name }}</label>
-                            <component :is="element.type" style="width: 100%"/>
-                        </a-col>
-                    </Draggable>
-                </Container>
-            </a-row>
-        </a-col>
-        <a-col :span="19" class="min-h-screen bg-gray-100 flex justify-center items-center">
-            <a-row style="width: 80%">
-                <a-form class="w-full min-h-screen" layout="vertical" :model="formState">
-                    <Container class="h-full" group-name="1" @drop="onDrop($event)">
-                        <Draggable v-for="(element, index) in formState.fields" drag-handle-selector>
+
+    <AuthenticatedLayout>
+        <a-row class="groups">
+            <a-col :span="5" class="min-h-screen border-b border-white p-4 flex justify-center items-center">
+                <a-row>
+                    <Container behaviour="copy" group-name="1" :get-child-payload="getChildPayload">
+                        <Draggable v-for="element in elements" drag-handle-selector>
                             <a-col :span="24" class="draggable-item my-2">
-                                <a-form-item :label="element.label" :name="['fields', index, 'value']">
-                                    <component :is="element.type" style="width: 100%">
-                                        <a-select-option
-                                            v-if="element.type === 'a-select'"
-                                            v-for="(option) in element.options"
-                                            :value="option.value">{{ option.label }}
-                                        </a-select-option>
-                                    </component>
-                                    <MinusCircleOutlined class="dynamic-delete-item" @click="removeField(element)"/>
-                                </a-form-item>
+                                <label>{{ element.name }}</label>
+                                <component :is="element.type" style="width: 100%"/>
                             </a-col>
                         </Draggable>
                     </Container>
-                    <a-form-item v-if="formState.fields.length > 0">
-                        <a-button type="primary" @click="onSubmit" class="fixed bottom-5 right-5 h-14">
-                            Update Form Elements
-                        </a-button>
-                    </a-form-item>
-                </a-form>
-            </a-row>
-        </a-col>
-    </a-row>
-
+                </a-row>
+            </a-col>
+            <a-col :span="19" class="min-h-screen pt-5 bg-white flex justify-center items-center">
+                <a-row style="width: 80%">
+                    <a-form class="w-full min-h-screen" layout="vertical" :model="formState">
+                        <Container class="h-full" group-name="1" @drop="onDrop($event)">
+                            <Draggable v-for="(element, index) in formState.fields" drag-handle-selector>
+                                <a-col :span="24" class="draggable-item my-2">
+                                    <a-form-item :label="element.label" :name="['fields', index, 'value']">
+                                        <component :is="element.type" style="width: 100%">
+                                            <a-select-option
+                                                v-if="element.type === 'a-select'"
+                                                v-for="(option) in element.options"
+                                                :value="option.value">{{ option.label }}
+                                            </a-select-option>
+                                        </component>
+                                        <MinusCircleOutlined class="dynamic-delete-item" @click="removeField(element)"/>
+                                    </a-form-item>
+                                </a-col>
+                            </Draggable>
+                        </Container>
+                        <a-form-item v-if="formState.fields.length > 0">
+                            <a-button type="primary" @click="onSubmit" class="fixed bottom-5 right-5 h-14">
+                                Update Form Elements
+                            </a-button>
+                        </a-form-item>
+                    </a-form>
+                </a-row>
+            </a-col>
+        </a-row>
+    </AuthenticatedLayout>
     <a-modal v-model:open="open" width="1000px" title="Define Properties" @ok="handleOk">
 
         <a-form :model="modalState" name="basic" layout="vertical" autocomplete="off">
@@ -84,6 +86,7 @@
     </a-modal>
 </template>
 <script lang="ts">
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import {Container, Draggable} from "vue-dndrop";
 import {Checkbox, Col, DatePicker, Input, InputNumber, Select} from 'ant-design-vue';
 import {reactive, ref, toRaw, UnwrapRef} from 'vue';
@@ -161,6 +164,7 @@ export default {
         Container,
         Draggable,
         MinusCircleOutlined,
+        AuthenticatedLayout,
         PlusOutlined,
         'a-col': Col,
         'a-input': Input,
