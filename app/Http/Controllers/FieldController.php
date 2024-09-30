@@ -13,7 +13,7 @@ class FieldController extends Controller
 {
     public function index(Form $form): Response
     {
-        return Inertia::render('Fields/modal', [
+        return Inertia::render('Fields/Field', [
             'form' => new FormResource($form->load('fields'))
         ]);
     }
