@@ -9,11 +9,24 @@ use App\Models\Form;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Crypt;
 use Inertia\Inertia;
 use Inertia\Response;
 
 class FormController extends Controller
 {
+
+    public function display($encrypt): Response|RedirectResponse
+    {
+        $form = Form::with('fields')->find(Crypt::decryptString($encrypt));
+
+        if (is_null($form)) return redirect()->intended(route('dashboard'));
+
+        return Inertia::render('Forms/Display', [
+            'form' => new FormResource($form)
+        ]);
+    }
+
     public function index(): Response
     {
         /** @var User $user */
@@ -36,7 +49,7 @@ class FormController extends Controller
 
         $form = $user->forms()->create($request->validated());
 
-        return redirect()->intended(route('forms.fields.index',['form' => $form->getAttribute('id')]));
+        return redirect()->intended(route('forms.fields.index', ['form' => $form->getAttribute('id')]));
     }
 
     public function show(Form $form): Response
@@ -50,6 +63,6 @@ class FormController extends Controller
     {
         $form->update($request->validated());
 
-        return redirect()->intended(route('forms.fields.index',['form' => $form->getAttribute('id')]));
+        return redirect()->intended(route('forms.fields.index', ['form' => $form->getAttribute('id')]));
     }
 }
