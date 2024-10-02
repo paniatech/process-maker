@@ -65,6 +65,10 @@ const handleAdd = () => {
 
                                 <template v-else-if="column.key === 'action'">
                                     <span>
+                                        <Link :href="route('landing', [record.display])">
+                                            Publish
+                                        </Link>
+                                        <a-divider type="vertical"/>
                                         <Link :href="route('forms.show', [record.id])">
                                             Update
                                         </Link>

@@ -18,8 +18,8 @@ class SubmissionController extends Controller
         foreach ($request->all() as $payload)
             $submission->payloads()->attach($payload['field_id'], $payload);
 
-        return redirect()->intended(route('landing'), [
+        return redirect()->intended(route('landing', [
             'encrypt' => Crypt::encryptString($form->getAttribute('id'))
-        ]);
+        ]));
     }
 }

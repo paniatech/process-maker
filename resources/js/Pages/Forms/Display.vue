@@ -1,11 +1,15 @@
 <template>
 
+    <Head :title="form.name"/>
+
     <GuestLayout>
+        <a-typography>
+            <a-typography-title>{{ form.name }}</a-typography-title>
+            <a-typography-paragraph>{{ form.description }}</a-typography-paragraph>
+        </a-typography>
         <a-form class="w-full" layout="vertical" :model="formState">
 
             <a-col v-for="(element, index) in form.fields" :span="24" class="draggable-item my-2">
-
-                {{ element }}
                 <a-form-item :label="element.label" :name="['fields', index, 'value']">
                     <component :is="element.type" style="width: 100%" v-model:value="formState[element.id].field_value">
                         <a-select-option
@@ -16,7 +20,6 @@
                     </component>
                 </a-form-item>
             </a-col>
-
             <a-form-item>
                 <a-button type="primary" @click="onSubmit" class="fixed bottom-5 right-5 h-14">
                     Submit
@@ -28,8 +31,8 @@
 <script lang="ts">
 import GuestLayout from '@/Layouts/GuestLayout.vue';
 import {Checkbox, Col, DatePicker, Input, InputNumber, Select} from 'ant-design-vue';
-import {reactive, ref, toRaw, UnwrapRef} from 'vue';
-import {router} from '@inertiajs/vue3';
+import {reactive, toRaw, UnwrapRef} from 'vue';
+import {Head, router} from '@inertiajs/vue3';
 
 interface Element {
     id: number;
@@ -50,6 +53,7 @@ interface Form {
 
 export default {
     components: {
+        Head,
         GuestLayout,
         'a-col': Col,
         'a-input': Input,
@@ -71,7 +75,13 @@ export default {
         }, {}));
 
         const onSubmit = () => {
-            router.post(route('forms.submissions.store', [form.id]), toRaw(formState))
+            router.post(route('forms.submissions.store', [form.id]), toRaw(formState), {
+                onSuccess: page => {
+                    form.fields.forEach((obj) => {
+                        formState[obj.id].field_value = '';
+                    });
+                },
+            });
         };
 
         return {form, formState, open, onSubmit};
