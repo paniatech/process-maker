@@ -76,6 +76,10 @@ const handleAdd = () => {
                                         <Link :href="route('forms.fields.index', [record.id])">
                                             Show Fields
                                         </Link>
+                                        <a-divider type="vertical"/>
+                                        <Link :href="route('forms.submissions.index', [record.id])">
+                                            Submissions
+                                        </Link>
                                     </span>
                                 </template>
                             </template>

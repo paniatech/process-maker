@@ -18,7 +18,7 @@ class FormResource extends JsonResource
      *
      * @return array<string, mixed>
      */
-    #[ArrayShape(['id' => "mixed", 'name' => "mixed", 'description' => "mixed", 'display' => "string", 'fields' => "mixed", 'created_at' => "mixed", 'updated_at' => "mixed"])]
+    #[ArrayShape(['id' => "mixed", 'name' => "mixed", 'description' => "mixed", 'display' => "string", 'fields' => "mixed",  'submissions' => "mixed", 'created_at' => "mixed", 'updated_at' => "mixed"])]
     public function toArray(Request $request): array
     {
         return [
@@ -27,6 +27,7 @@ class FormResource extends JsonResource
             'description' => $this->resource->getAttribute('description'),
             'display' => Crypt::encryptString($this->resource->getAttribute('id')),
             'fields' => FormFieldResource::collection($this->whenLoaded('fields')),
+            'submissions' => FormSubmissionResource::collection($this->whenLoaded('submissions')),
             'created_at' => $this->resource->getAttribute('created_at')->toDateTimeString(),
             'updated_at' => $this->resource->getAttribute('updated_at')->toDateTimeString(),
         ];
